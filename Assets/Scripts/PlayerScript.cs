@@ -30,18 +30,16 @@ public class PlayerScript : MonoBehaviour
     RaycastHit hitUp;
     RaycastHit hitF;
     RaycastHit hitB;
-    RaycastHit hitFU;
-    RaycastHit hitBU;
 
     Vector2 lastInput;
 
     private void FixedUpdate()
     {
         isTouchingCeiling = Physics.Raycast(new Ray(topCollider.transform.position - Vector3.up * 0.5f - (transform.forward * 0.5f * lastInput.y), Vector3.up), out hitUp, 1f, groundMask);
-        isTouchingForward = Physics.Raycast(new Ray(frontCollider.transform.position , transform.forward), out hitF, 1f, groundMask);
-        isTouchingBack = Physics.Raycast(new Ray(backCollider.transform.position, -transform.forward), out hitB, 1f, groundMask);
-        isTouchingUpForward = Physics.Raycast(new Ray(frontCollider.transform.position + Vector3.up * 2f, transform.forward), out hitFU, 1f, groundMask);
-        isTouchingUpBack = Physics.Raycast(new Ray(backCollider.transform.position + Vector3.up * 2f, -transform.forward), out hitBU, 1f, groundMask);
+        Vector3 dir = frontCollider.transform.position - bottomCollider.transform.position;
+        Vector3 dir2 = backCollider.transform.position - bottomCollider.transform.position;
+        isTouchingForward = Physics.Raycast(new Ray(bottomCollider.transform.position , dir), out hitF, 1f, groundMask);
+        isTouchingBack = Physics.Raycast(new Ray(bottomCollider.transform.position, dir2), out hitB, 1f, groundMask);
         Physics.Raycast(new Ray(bottomCollider.transform.position + Vector3.up * 0.5f - (transform.forward * 0.5f * lastInput.y), Vector3.down), out hit, Mathf.Infinity, groundMask);
         checkGround = Physics.Raycast(bottomCollider.transform.position + Vector3.up * 0.5f - (transform.forward * 0.5f * lastInput.y), Vector3.down, 1f, groundMask, QueryTriggerInteraction.Ignore);
     }
@@ -117,16 +115,16 @@ public class PlayerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(new Vector2(Input.GetAxis("Horizontal"),Input.GetAxis("Vertical")).magnitude != 0f)
+        if (new Vector2(Input.GetAxis("Horizontal"),Input.GetAxis("Vertical")).magnitude != 0f)
         {
             lastInput = new Vector2(Input.GetAxis("Horizontal"),Input.GetAxis("Vertical"));
         }
         currentInput = Input.GetAxis("Vertical");
-        if ((isTouchingForward && Vector3.Scale(frontCollider.transform.position - hitF.point, Vector3.one - Vector3.up).magnitude < 1f) || (isTouchingUpForward && Vector3.Scale(frontCollider.transform.position + Vector3.one * 2f - hitFU.point, Vector3.one - Vector3.up).magnitude < 1f))
+        if ((isTouchingForward && Vector3.Scale(frontCollider.transform.position - hitF.point, Vector3.one - Vector3.up).magnitude < 1f))
         {
             currentInput = Mathf.Clamp(currentInput, -1f, 0f);
         }
-        else if ((isTouchingBack && Vector3.Scale(backCollider.transform.position - hitB.point, Vector3.one - Vector3.up).magnitude < 1f) || (isTouchingUpBack && Vector3.Scale(backCollider.transform.position + Vector3.up * 2f - hitBU.point, Vector3.one - Vector3.up).magnitude < 1f))
+        else if ((isTouchingBack && Vector3.Scale(backCollider.transform.position - hitB.point, Vector3.one - Vector3.up).magnitude < 1f))
         {
             currentInput = Mathf.Clamp(currentInput, 0f, 1f);
         }
@@ -151,5 +149,7 @@ public class PlayerScript : MonoBehaviour
     {
         Gizmos.DrawRay(new Ray(bottomCollider.transform.position + Vector3.up * 0.5f - (transform.forward * 0.5f * lastInput.y), Vector3.down));
         Gizmos.DrawRay(new Ray(topCollider.transform.position - Vector3.up * 0.5f - (transform.forward * 0.5f * lastInput.y), Vector3.up));
+        Gizmos.DrawRay(new Ray(bottomCollider.transform.position, frontCollider.transform.position - bottomCollider.transform.position));
+        Gizmos.DrawRay(new Ray(bottomCollider.transform.position, backCollider.transform.position - bottomCollider.transform.position));
     }
 }
