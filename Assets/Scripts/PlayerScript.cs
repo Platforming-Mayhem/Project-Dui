@@ -30,16 +30,22 @@ public class PlayerScript : MonoBehaviour
     RaycastHit hitUp;
     RaycastHit hitF;
     RaycastHit hitB;
+    RaycastHit hitFU;
+    RaycastHit hitBU;
 
     Vector2 lastInput;
 
     private void FixedUpdate()
     {
-        isTouchingCeiling = Physics.Raycast(new Ray(topCollider.transform.position - Vector3.up * 0.5f - (transform.forward * 0.5f * lastInput.y), Vector3.up), out hitUp, 1f, groundMask);
         Vector3 dir = frontCollider.transform.position - bottomCollider.transform.position;
         Vector3 dir2 = backCollider.transform.position - bottomCollider.transform.position;
+        Vector3 dir3 = frontCollider.transform.position - topCollider.transform.position;
+        Vector3 dir4 = backCollider.transform.position - topCollider.transform.position;
+        isTouchingCeiling = Physics.Raycast(new Ray(topCollider.transform.position - Vector3.up * 0.5f - (transform.forward * 0.5f * lastInput.y), Vector3.up), out hitUp, 1f, groundMask);
         isTouchingForward = Physics.Raycast(new Ray(bottomCollider.transform.position , dir), out hitF, 1f, groundMask);
         isTouchingBack = Physics.Raycast(new Ray(bottomCollider.transform.position, dir2), out hitB, 1f, groundMask);
+        isTouchingUpForward = Physics.Raycast(new Ray(topCollider.transform.position, dir3), out hitFU, 1f, groundMask);
+        isTouchingUpBack = Physics.Raycast(new Ray(topCollider.transform.position, dir4), out hitBU, 1f, groundMask);
         Physics.Raycast(new Ray(bottomCollider.transform.position + Vector3.up * 0.5f - (transform.forward * 0.5f * lastInput.y), Vector3.down), out hit, Mathf.Infinity, groundMask);
         checkGround = Physics.Raycast(bottomCollider.transform.position + Vector3.up * 0.5f - (transform.forward * 0.5f * lastInput.y), Vector3.down, 1f, groundMask, QueryTriggerInteraction.Ignore);
     }
@@ -120,11 +126,11 @@ public class PlayerScript : MonoBehaviour
             lastInput = new Vector2(Input.GetAxis("Horizontal"),Input.GetAxis("Vertical"));
         }
         currentInput = Input.GetAxis("Vertical");
-        if ((isTouchingForward && Vector3.Scale(frontCollider.transform.position - hitF.point, Vector3.one - Vector3.up).magnitude < 1f))
+        if ((isTouchingForward && Vector3.Scale(frontCollider.transform.position - hitF.point, Vector3.one - Vector3.up).magnitude < 1f) || (isTouchingUpForward && Vector3.Scale(frontCollider.transform.position - hitFU.point, Vector3.one - Vector3.up).magnitude < 1f))
         {
             currentInput = Mathf.Clamp(currentInput, -1f, 0f);
         }
-        else if ((isTouchingBack && Vector3.Scale(backCollider.transform.position - hitB.point, Vector3.one - Vector3.up).magnitude < 1f))
+        else if ((isTouchingBack && Vector3.Scale(backCollider.transform.position - hitB.point, Vector3.one - Vector3.up).magnitude < 1f) || (isTouchingUpBack && Vector3.Scale(backCollider.transform.position - hitBU.point, Vector3.one - Vector3.up).magnitude < 1f))
         {
             currentInput = Mathf.Clamp(currentInput, 0f, 1f);
         }
