@@ -17,6 +17,6 @@ public class CameraScript : MonoBehaviour
     void Update()
     {
         transform.position = Vector3.Lerp(transform.position, Player.transform.position + initialPosition, Time.deltaTime * speed);
-        transform.LookAt(Player.transform);
+        transform.eulerAngles += Vector3.up * Time.deltaTime * Input.GetAxis("Mouse X") * speed;
     }
 }
