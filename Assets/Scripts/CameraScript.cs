@@ -11,6 +11,7 @@ public class CameraScript : MonoBehaviour
     void Start()
     {
         initialPosition = transform.position;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     // Update is called once per frame

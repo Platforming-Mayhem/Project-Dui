@@ -42,7 +42,7 @@ ModelImporter:
       takeName: Scene
       internalID: 0
       firstFrame: 0
-      lastFrame: 79
+      lastFrame: 59
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -70,8 +70,8 @@ ModelImporter:
       name: Idle
       takeName: Scene
       internalID: 0
-      firstFrame: 80
-      lastFrame: 81
+      firstFrame: 60
+      lastFrame: 61
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
