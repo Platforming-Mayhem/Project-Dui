@@ -6,7 +6,6 @@ public class PlayerScript : MonoBehaviour
 {
     public LayerMask groundMask;
     public AnimationCurve speedUpCurve;
-    public AnimationCurve slowDownCurve;
     public GameObject bottomCollider;
     public GameObject topCollider;
     public GameObject frontCollider;
@@ -119,11 +118,8 @@ public class PlayerScript : MonoBehaviour
     }
 
     bool checkGround;
-    public bool slow;
     float curve;
-    float slowCurve;
     float currentInput;
-    float previousInput;
     // Update is called once per frame
     void Update()
     {
@@ -148,16 +144,7 @@ public class PlayerScript : MonoBehaviour
         {
             curve = 0f;
         }
-        if (previousInput != 0f && currentInput == 0f)
-        {
-            slowCurve = 0f;
-        }
-        if (slowCurve < slowDownCurve.keys[slowDownCurve.length - 1].time)
-        {
-            slowCurve += Time.deltaTime;
-        }
-        transform.position += slowDownCurve.Evaluate(slowCurve) * transform.forward * Time.deltaTime * movementSpeed;
-        transform.position += speedUpCurve.Evaluate(curve) * lastInput.y * transform.forward * Time.deltaTime * movementSpeed;
+        transform.position += speedUpCurve.Evaluate(curve) * currentInput * transform.forward * Time.deltaTime * movementSpeed;
         transform.eulerAngles += new Vector3(0f, Input.GetAxis("Horizontal") * Time.deltaTime * rotationSpeed, 0f);
         if (Input.GetButtonDown("Jump") && !isJumping && !isTouchingCeiling)
         {
@@ -172,7 +159,6 @@ public class PlayerScript : MonoBehaviour
             StartCoroutine(Jump(0f));
         }
         anim.SetFloat("Speed", new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")).magnitude);
-        previousInput = Input.GetAxis("Vertical");
     }
 
     private void OnDrawGizmos()
