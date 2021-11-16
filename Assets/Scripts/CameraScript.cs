@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class CameraScript : MonoBehaviour
 {
+    public enum CameraTypes { mouseControl, dolly};
+    public CameraTypes cameraTypes;
     public GameObject player;
+    public Vector3 position;
     public float speed;
-    public Vector3 scale;
-    public Vector3 offset;
     Vector3 initialPosition;
     Camera cam;
-    bool check;
 
     // Start is called before the first frame update
     void Start()
@@ -20,43 +20,19 @@ public class CameraScript : MonoBehaviour
         cam = GetComponentInChildren<Camera>();
     }
 
-    Vector3 maxExt;
-    Vector3 minExt;
-
-    private void FixedUpdate()
-    {
-        maxExt = (transform.position + offset + (scale / 2f));
-        minExt = (transform.position + offset - (scale / 2f));
-        if(player.transform.position.x < maxExt.x && player.transform.position.x > minExt.x && player.transform.position.z < maxExt.z && player.transform.position.z > minExt.z && player.transform.position.y < maxExt.y && player.transform.position.y > minExt.y)
-        {
-            check = true;
-        }
-        else
-        {
-            check = false;
-        }
-    }
-
     // Update is called once per frame
     void Update()
     {
-
-        
-
-        if (check)
+        if(cameraTypes == CameraTypes.mouseControl)
         {
-            cam.gameObject.SetActive(true);
-            Debug.Log("Colliding, Your chin feels nice");
+            transform.position = player.transform.position;
+            transform.eulerAngles = new Vector3(0f, transform.eulerAngles.y, 0f);
+            transform.eulerAngles += Vector3.up * Time.deltaTime * Input.GetAxis("Mouse X") * speed;
+        }
+        else if(cameraTypes == CameraTypes.dolly)
+        {
+            transform.position = position;
             transform.LookAt(player.transform);
         }
-        else
-        {
-            cam.gameObject.SetActive(false);
-        }
-    }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.DrawCube(transform.position + offset, scale);
     }
 }
