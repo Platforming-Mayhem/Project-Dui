@@ -6,21 +6,16 @@ public class ChangeCamera : MonoBehaviour
 {
     GameObject player;
     CameraScript cam;
-    public bool changeCamera;
-    public Vector3 offset;
-    public Vector3 size;
     bool check;
-    bool once;
+    public bool onlyMouse;
     public Vector3 maxExt;
     public Vector3 minExt;
     Vector3 nMaxExt;
     Vector3 nMinExt;
     Vector3 initalPosition;
-    Vector3 center;
     // Start is called before the first frame update
     void Start()
     {
-        center = transform.position + offset;
         player = GameObject.FindGameObjectWithTag("Player");
         cam = FindObjectOfType<CameraScript>();
         initalPosition = cam.position;
@@ -45,20 +40,33 @@ public class ChangeCamera : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        float dot = Vector3.Dot(transform.forward, player.transform.forward * player.GetComponent<PlayerScript>().lastInput.y);
         if(!check && previousCheck)
         {
-            cam.position = transform.position;
-            if (!changeCamera)
+            Debug.Log("Collide");
+            if (!onlyMouse)
             {
+                cam.position = transform.position;
                 if (cam.cameraTypes == CameraScript.CameraTypes.dolly)
                 {
-                    cam.position = initalPosition;
-                    cam.cameraTypes = CameraScript.CameraTypes.mouseControl;
+                    if (dot < 0f)
+                    {
+                        cam.position = initalPosition;
+                        cam.cameraTypes = CameraScript.CameraTypes.mouseControl;
+                    }
                 }
                 else
                 {
-                    cam.cameraTypes = CameraScript.CameraTypes.dolly;
+                    if (dot > 0f)
+                    {
+                        cam.cameraTypes = CameraScript.CameraTypes.dolly;
+                    }
                 }
+            }
+            else
+            {
+                cam.position = initalPosition;
+                cam.cameraTypes = CameraScript.CameraTypes.mouseControl;
             }
         }
         previousCheck = check;
@@ -66,18 +74,9 @@ public class ChangeCamera : MonoBehaviour
 
     private void OnDrawGizmos()
     {
+        Gizmos.color = Color.green;
+        Gizmos.DrawLine(nMinExt, nMaxExt);
+        Gizmos.color = Color.yellow;
         Gizmos.DrawLine(transform.rotation * minExt, transform.rotation * maxExt);
-        Gizmos.DrawLine(transform.rotation * minExt, transform.rotation * new Vector3(maxExt.x, minExt.y, minExt.z));
-        Gizmos.DrawLine(transform.rotation * new Vector3(minExt.x, maxExt.y, minExt.z), transform.rotation * new Vector3(maxExt.x, maxExt.y, minExt.z));
-        Gizmos.DrawLine(transform.rotation * new Vector3(minExt.x, minExt.y, minExt.z), transform.rotation * new Vector3(minExt.x, maxExt.y, minExt.z));
-        Gizmos.DrawLine(transform.rotation * new Vector3(maxExt.x, minExt.y, minExt.z), transform.rotation * new Vector3(maxExt.x, maxExt.y, minExt.z));
-        Gizmos.DrawLine(transform.rotation * new Vector3(minExt.x, minExt.y, maxExt.z), transform.rotation * new Vector3(maxExt.x, minExt.y, maxExt.z));
-        Gizmos.DrawLine(transform.rotation * new Vector3(minExt.x, maxExt.y, maxExt.z), transform.rotation * new Vector3(maxExt.x, maxExt.y, maxExt.z));
-        Gizmos.DrawLine(transform.rotation * new Vector3(minExt.x, minExt.y, maxExt.z), transform.rotation * new Vector3(minExt.x, maxExt.y, maxExt.z));
-        Gizmos.DrawLine(transform.rotation * new Vector3(maxExt.x, minExt.y, maxExt.z), transform.rotation * new Vector3(maxExt.x, maxExt.y, maxExt.z));
-        Gizmos.DrawLine(transform.rotation * new Vector3(minExt.x, minExt.y, minExt.z), transform.rotation * new Vector3(minExt.x, minExt.y, maxExt.z));
-        Gizmos.DrawLine(transform.rotation * new Vector3(minExt.x, maxExt.y, minExt.z), transform.rotation * new Vector3(minExt.x, maxExt.y, maxExt.z));
-        Gizmos.DrawLine(transform.rotation * new Vector3(maxExt.x, minExt.y, minExt.z), transform.rotation * new Vector3(maxExt.x, minExt.y, maxExt.z));
-        Gizmos.DrawLine(transform.rotation * new Vector3(maxExt.x, maxExt.y, minExt.z), transform.rotation * new Vector3(maxExt.x, maxExt.y, maxExt.z));
     }
 }

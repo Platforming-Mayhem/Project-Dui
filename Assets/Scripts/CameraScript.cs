@@ -25,7 +25,7 @@ public class CameraScript : MonoBehaviour
     {
         if(cameraTypes == CameraTypes.mouseControl)
         {
-            transform.position = player.transform.position;
+            transform.position = Vector3.Lerp(transform.position, player.transform.position, Time.deltaTime * 10f);
             transform.eulerAngles = new Vector3(0f, transform.eulerAngles.y, 0f);
             transform.eulerAngles += Vector3.up * Time.deltaTime * Input.GetAxis("Mouse X") * speed;
         }

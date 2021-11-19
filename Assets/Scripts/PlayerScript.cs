@@ -34,7 +34,7 @@ public class PlayerScript : MonoBehaviour
     RaycastHit hitFU;
     RaycastHit hitBU;
 
-    Vector2 lastInput;
+    public Vector2 lastInput;
 
     private void FixedUpdate()
     {
