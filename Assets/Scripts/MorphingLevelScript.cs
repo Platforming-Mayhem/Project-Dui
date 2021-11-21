@@ -5,15 +5,15 @@ using UnityEngine;
 public class MorphingLevelScript : MonoBehaviour
 {
     public float timeTillTriggered = 0f;
+    public float speed;
     public bool hasBeenTriggered;
     public Animator EnvironmentAnimator;
-    MeshCollider meshCollider;
+    public MeshCollider meshCollider;
     Mesh mesh;
 
     // Start is called before the first frame update
     private void Start()
     {
-        meshCollider = GetComponentInChildren<MeshCollider>();
         mesh = new Mesh();
     }
 
@@ -31,7 +31,7 @@ public class MorphingLevelScript : MonoBehaviour
     {
         if (hasBeenTriggered)
         {
-            timeTillTriggered += Time.deltaTime * Time.deltaTime;
+            timeTillTriggered += Time.deltaTime * speed;
         }
         EnvironmentAnimator.SetFloat("Time", timeTillTriggered);
     }
