@@ -5,6 +5,7 @@ using UnityEngine;
 public class NewPlayerScript : MonoBehaviour
 {
     Rigidbody rb;
+    public GameObject jumpFX;
     public Transform groundChecker;
     public AnimationCurve speedUpCurve;
     public AnimationCurve slowDownCurve;
@@ -37,6 +38,8 @@ public class NewPlayerScript : MonoBehaviour
 
     bool jump;
 
+    bool previousGrounded;
+
     float jumpTime;
 
     // Update is called once per frame
@@ -55,22 +58,26 @@ public class NewPlayerScript : MonoBehaviour
         }
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
+            Instantiate(jumpFX, transform.position, Quaternion.identity);
             jump = true;
         }
-        if(isGrounded && jumpTime >= 0.5f)
+        else if (isGrounded && !previousGrounded)
         {
             jump = false;
         }
         if (jump)
         {
-            jumpTime += Time.deltaTime;
+            jumpTime += Time.deltaTime * 9.8f;
+            rb.velocity = Vector3.up * curveEquation(3.5f, jumpTime) + transform.forward * speedUpCurve.Evaluate(speedUpTime);
         }
         else
         {
             jumpTime = 0f;
+            rb.velocity = Input.GetAxis("Vertical") * transform.forward * (speedUpCurve.Evaluate(speedUpTime) + slowDownCurve.Evaluate(slowDownTime)) + Vector3.up * rb.velocity.y;
         }
+        anim.SetBool("Jump", jump);
         transform.eulerAngles += Vector3.up * Time.deltaTime * Input.GetAxis("Horizontal") * turningCircle;
-        rb.velocity = Input.GetAxis("Vertical") * transform.forward * (speedUpCurve.Evaluate(speedUpTime) + slowDownCurve.Evaluate(slowDownTime)) + Vector3.up * rb.velocity.y;
+        previousGrounded = isGrounded;
     }
     private void OnDrawGizmos()
     {

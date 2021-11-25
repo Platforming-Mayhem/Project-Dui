@@ -148,7 +148,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 66050529}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.487, z: 0}
+  m_LocalPosition: {x: 0, y: -0.04, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1503569351}
@@ -1505,7 +1505,7 @@ CapsuleCollider:
   m_Radius: 0.5
   m_Height: 2.62
   m_Direction: 1
-  m_Center: {x: 0, y: 0.9, z: 0}
+  m_Center: {x: 0, y: 1.3, z: 0}
 --- !u!114 &1503569350
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1518,6 +1518,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed57b782b1f89694b80798296c593f0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  jumpFX: {fileID: 1425482624351107566, guid: 7e03bfa4a91f865499e06961c6df5078, type: 3}
   groundChecker: {fileID: 66050530}
   speedUpCurve:
     serializedVersion: 2
@@ -1549,20 +1550,20 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 1
-      inSlope: -0.06931062
-      outSlope: -0.06931062
+      inSlope: -0.014603849
+      outSlope: -0.014603849
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0.20416667
+      outWeight: 0.20581855
     - serializedVersion: 3
-      time: 1
+      time: 1.5
       value: 0
-      inSlope: -2.52144
-      outSlope: -2.52144
+      inSlope: -1.1508579
+      outSlope: -1.1508579
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.04583335
+      inWeight: 0.06435784
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
