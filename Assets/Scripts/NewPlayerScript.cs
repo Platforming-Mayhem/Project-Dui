@@ -9,12 +9,16 @@ public class NewPlayerScript : MonoBehaviour
     public AnimationCurve speedUpCurve;
     public AnimationCurve slowDownCurve;
     public float turningCircle = 10f;
+
+    Animator anim;
+
     bool isGrounded;
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponentInChildren<Rigidbody>();
+        anim = GetComponentInChildren<Animator>();
     }
 
     void FixedUpdate()
@@ -38,6 +42,7 @@ public class NewPlayerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        anim.SetFloat("Speed", Input.GetAxis("Vertical"));
         if(Input.GetAxis("Vertical") != 0f)
         {
             slowDownTime = 0f;
