@@ -1,7 +1,7 @@
 fileFormatVersion: 2
 guid: 1ef4d3b4c21b4a749880b7c2dd32a3f7
 ModelImporter:
-  serializedVersion: 20200
+  serializedVersion: 21100
   internalIDToNameTable:
   - first:
       74: -623603649343465320
@@ -13,6 +13,11 @@ ModelImporter:
       74: -4454139077703410880
     second: Scene (2)
   externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Grass
+    second: {fileID: 2100000, guid: 316acec7b36cbcd43ab07fb1c5f25a0a, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
@@ -112,8 +117,8 @@ ModelImporter:
       name: Scene (1)
       takeName: Scene
       internalID: 0
-      firstFrame: 1
-      lastFrame: 2
+      firstFrame: 0
+      lastFrame: 1
       wrapMode: 0
       orientationOffsetY: 0
       level: 0

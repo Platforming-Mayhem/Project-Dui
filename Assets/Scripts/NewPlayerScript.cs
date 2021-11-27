@@ -27,7 +27,7 @@ public class NewPlayerScript : MonoBehaviour
         isGrounded = Physics.CheckSphere(groundChecker.position, 0.2f);
     }
 
-    float speedUpTime;
+    public float speedUpTime;
     float slowDownTime;
 
     float curveEquation(float a, float timeInterval)
@@ -42,11 +42,14 @@ public class NewPlayerScript : MonoBehaviour
 
     float jumpTime;
 
+    public float forward;
+
     // Update is called once per frame
     void Update()
     {
-        anim.SetFloat("Speed", Input.GetAxis("Vertical"));
-        if(Input.GetAxis("Vertical") != 0f)
+        forward = Input.GetAxis("Vertical");
+        anim.SetFloat("Speed", forward);
+        if(forward != 0f)
         {
             slowDownTime = 0f;
             speedUpTime += Time.deltaTime;
@@ -63,22 +66,32 @@ public class NewPlayerScript : MonoBehaviour
         }
         else if (isGrounded && !previousGrounded)
         {
+            jumpTime = 0f;
             jump = false;
         }
         if (jump)
         {
             jumpTime += Time.deltaTime * 9.8f;
-            rb.velocity = Vector3.up * curveEquation(3.5f, jumpTime) + transform.forward * speedUpCurve.Evaluate(speedUpTime);
+            rb.velocity = Vector3.up * curveEquation(3.5f, jumpTime) + transform.forward * (speedUpCurve.Evaluate(speedUpCurve.keys[speedUpCurve.length - 1].time) * 1.5f);
         }
         else
         {
-            jumpTime = 0f;
-            rb.velocity = Input.GetAxis("Vertical") * transform.forward * (speedUpCurve.Evaluate(speedUpTime) + slowDownCurve.Evaluate(slowDownTime)) + Vector3.up * rb.velocity.y;
+            if (!isGrounded)
+            {
+                jumpTime += Time.deltaTime * 9.8f;
+                rb.velocity = transform.forward * (speedUpCurve.Evaluate(speedUpTime) * 1.5f) + Vector3.up * curveEquation(0f, jumpTime);
+            }
+            else
+            {
+                jumpTime = 0f;
+                rb.velocity = forward * transform.forward * (speedUpCurve.Evaluate(speedUpTime) + slowDownCurve.Evaluate(slowDownTime)) + Vector3.up * rb.velocity.y;
+            }
         }
         anim.SetBool("Jump", jump);
         transform.eulerAngles += Vector3.up * Time.deltaTime * Input.GetAxis("Horizontal") * turningCircle;
         previousGrounded = isGrounded;
     }
+
     private void OnDrawGizmos()
     {
         Gizmos.DrawWireSphere(groundChecker.position, 0.2f);

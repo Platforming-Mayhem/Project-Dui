@@ -421,6 +421,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1425482624351107567}
+  - component: {fileID: 1142733106791208378}
   m_Layer: 2
   m_Name: JumpFX
   m_TagString: Untagged
@@ -437,7 +438,7 @@ Transform:
   m_GameObject: {fileID: 1425482624351107566}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 0.5, z: 1}
   m_Children:
   - {fileID: 1425482623306497910}
   - {fileID: 1425482623433430139}
@@ -446,3 +447,16 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1142733106791208378
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1425482624351107566}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fa32e0ceee391e4f91ec9ab283cc1b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  time: 1.15
