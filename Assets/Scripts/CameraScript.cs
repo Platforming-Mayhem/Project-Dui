@@ -31,8 +31,7 @@ public class CameraScript : MonoBehaviour
         }
         else if(cameraTypes == CameraTypes.dolly)
         {
-            transform.position = position;
-            transform.LookAt(player.transform);
+
         }
     }
 }

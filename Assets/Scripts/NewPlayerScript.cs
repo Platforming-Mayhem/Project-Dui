@@ -5,6 +5,7 @@ using UnityEngine;
 public class NewPlayerScript : MonoBehaviour
 {
     Rigidbody rb;
+    Camera cam;
     public GameObject jumpFX;
     public Transform groundChecker;
     public AnimationCurve speedUpCurve;
@@ -20,6 +21,7 @@ public class NewPlayerScript : MonoBehaviour
     {
         rb = GetComponentInChildren<Rigidbody>();
         anim = GetComponentInChildren<Animator>();
+        cam = Camera.main;
     }
 
     void FixedUpdate()
@@ -29,6 +31,11 @@ public class NewPlayerScript : MonoBehaviour
 
     public float speedUpTime;
     float slowDownTime;
+
+    public void Die()
+    {
+        
+    }
 
     float curveEquation(float a, float timeInterval)
     {
@@ -42,14 +49,15 @@ public class NewPlayerScript : MonoBehaviour
 
     float jumpTime;
 
-    public float forward;
+    Vector2 Direction;
 
     // Update is called once per frame
     void Update()
     {
-        forward = Input.GetAxis("Vertical");
-        anim.SetFloat("Speed", forward);
-        if(forward != 0f)
+        Direction = new Vector2(Input.GetAxis("Vertical"), Input.GetAxis("Horizontal"));
+        Vector3 movementDirection = Vector3.Scale(cam.transform.rotation * new Vector3(Direction.y, 0f, Direction.x), new Vector3(1f, 0f, 1f));
+        anim.SetFloat("Speed", Direction.magnitude);
+        if(Direction.magnitude != 0f)
         {
             slowDownTime = 0f;
             speedUpTime += Time.deltaTime;
@@ -84,12 +92,12 @@ public class NewPlayerScript : MonoBehaviour
             else
             {
                 jumpTime = 0f;
-                rb.velocity = forward * transform.forward * (speedUpCurve.Evaluate(speedUpTime) + slowDownCurve.Evaluate(slowDownTime)) + Vector3.up * rb.velocity.y;
+                rb.velocity = movementDirection * (speedUpCurve.Evaluate(speedUpTime) + slowDownCurve.Evaluate(slowDownTime)) + Vector3.up * rb.velocity.y;
             }
         }
         anim.SetBool("Jump", jump);
-        transform.eulerAngles += Vector3.up * Time.deltaTime * Input.GetAxis("Horizontal") * turningCircle;
         previousGrounded = isGrounded;
+        transform.forward = Vector3.Lerp(transform.forward, movementDirection, Time.deltaTime * turningCircle);
     }
 
     private void OnDrawGizmos()

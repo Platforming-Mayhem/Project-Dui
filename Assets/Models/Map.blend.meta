@@ -28,6 +28,11 @@ ModelImporter:
       assembly: UnityEngine.CoreModule
       name: Rock01
     second: {fileID: 2100000, guid: e7963ecb6e31d474d9e831b45516d687, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Spike
+    second: {fileID: 2100000, guid: c10df0c438da8754389bd2d3ee7ab9ad, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
