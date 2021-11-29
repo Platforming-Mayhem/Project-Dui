@@ -1,8 +1,8 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DisableOnceTriggered : MonoBehaviour
+public class EnableOnceTriggered : MonoBehaviour
 {
     CollisionMorph morph;
     public GameObject[] gameObjects;
@@ -11,7 +11,7 @@ public class DisableOnceTriggered : MonoBehaviour
     {
         for (int i = 0; i < gameObjects.Length; i++)
         {
-            gameObjects[i].SetActive(true);
+            gameObjects[i].SetActive(false);
         }
         morph = GetComponent<CollisionMorph>();
     }
@@ -27,7 +27,7 @@ public class DisableOnceTriggered : MonoBehaviour
         {
             for (int i = 0; i < gameObjects.Length; i++)
             {
-                gameObjects[i].SetActive(false);
+                gameObjects[i].SetActive(true);
             }
             once = false;
         }

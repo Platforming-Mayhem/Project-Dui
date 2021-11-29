@@ -16,7 +16,7 @@ public class ActivateSpikes : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (morph.trigger)
+        if (morph.nTrig)
         {
             anim.SetTrigger("Spike");
         }

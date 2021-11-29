@@ -5,10 +5,11 @@ using UnityEngine;
 public class CollisionMorph : MonoBehaviour
 {
     public Animator animator;
-    public bool trigger = false;
+    bool trigger = false;
     float t = 0f;
     public MeshCollider meshCollider;
     public GameObject GUI;
+    public GameObject NPCDialogue;
     Mesh mesh;
 
     // Start is called before the first frame update
@@ -16,26 +17,42 @@ public class CollisionMorph : MonoBehaviour
     {
         mesh = new Mesh();
         GUI.SetActive(false);
+        NPCDialogue.SetActive(false);
     }
 
     private void LateUpdate()
     {
-        if (trigger)
+        if (nTrig)
         {
             meshCollider.GetComponent<SkinnedMeshRenderer>().BakeMesh(mesh);
             meshCollider.sharedMesh = mesh;
         }
     }
+    public void Morph()
+    {
+        nTrig = true;
+        GUI.SetActive(false);
+        NPCDialogue.SetActive(false);
+    }
+    public void Minimise()
+    {
+        GUI.SetActive(false);
+        NPCDialogue.SetActive(false);
+        Cursor.lockState = CursorLockMode.Locked;
+    }
+    public bool nTrig;
     // Update is called once per frame
     void Update()
     {
         if (trigger)
         {
-            t += Time.deltaTime;
-        }
-        if(t > 1f)
-        {
+            NPCDialogue.SetActive(true);
+            Cursor.lockState = CursorLockMode.None;
             trigger = false;
+        }
+        if (nTrig)
+        {
+            t += Time.deltaTime;
         }
         animator.SetFloat("Time", t);
     }
@@ -57,6 +74,12 @@ public class CollisionMorph : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             GUI.SetActive(false);
+            Minimise();
+            if (nTrig)
+            {
+                GetComponent<Collider>().enabled = false;
+                nTrig = false;
+            }
         }
     }
 }

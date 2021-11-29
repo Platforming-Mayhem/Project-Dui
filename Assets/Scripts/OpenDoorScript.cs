@@ -17,7 +17,7 @@ public class OpenDoorScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (morph.trigger)
+        if (morph.nTrig)
         {
             if(inv.ReadKey() >= 3)
             {
