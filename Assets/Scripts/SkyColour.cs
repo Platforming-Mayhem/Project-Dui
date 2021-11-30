@@ -8,11 +8,13 @@ public class SkyColour : MonoBehaviour
     CollisionMorph morph;
     public Color init;
     public Color darker;
+    bool start;
     // Start is called before the first frame update
     void Start()
     {
         morph = GetComponent<CollisionMorph>();
         cam.backgroundColor = init;
+        start = false;
     }
 
     // Update is called once per frame
@@ -20,6 +22,10 @@ public class SkyColour : MonoBehaviour
     {
         cam = FindObjectOfType<Camera>();
         if (morph.nTrig)
+        {
+            start = true;
+        }
+        if (start)
         {
             cam.backgroundColor = darker;
         }
