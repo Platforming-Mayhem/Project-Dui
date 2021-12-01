@@ -22,7 +22,6 @@ public class CameraChange : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            cameraScript.transform.eulerAngles = new Vector3(cameraScript.transform.eulerAngles.x, cam.transform.eulerAngles.y, cameraScript.transform.eulerAngles.z);
             cam.gameObject.SetActive(true);
             cameraScript.cameraTypes = CameraScript.CameraTypes.dolly;
         }

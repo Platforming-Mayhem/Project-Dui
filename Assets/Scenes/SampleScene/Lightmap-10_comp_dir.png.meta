@@ -1,9 +1,5 @@
 fileFormatVersion: 2
-<<<<<<< HEAD:Assets/Scenes/SampleScene/Lightmap-12_comp_dir.png.meta
 guid: 5558c52e9b499aa45846d07141a19e1b
-=======
-guid: 41112b3f8b98015458debbccb48e5495
->>>>>>> 60ce28b300883f6b1e02ec5375fa174ea776e568:Assets/Scenes/SampleScene/Lightmap-10_comp_dir.png.meta
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
