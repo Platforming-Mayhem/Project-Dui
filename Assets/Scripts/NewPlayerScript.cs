@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class NewPlayerScript : MonoBehaviour
 {
-    Rigidbody rb;
+    public Rigidbody rb;
     Camera cam;
     public GameObject jumpFX;
     public Transform groundChecker;
@@ -37,7 +37,7 @@ public class NewPlayerScript : MonoBehaviour
         
     }
 
-    float curveEquation(float a, float timeInterval)
+    public float curveEquation(float a, float timeInterval)
     {
         float newHeight = -((timeInterval - a) * (timeInterval - a)) + (a * a);
         return newHeight;
@@ -76,6 +76,14 @@ public class NewPlayerScript : MonoBehaviour
         {
             jumpTime = 0f;
             jump = false;
+            try
+            {
+                FindObjectOfType<JumppadScript>().jump = false;
+            }
+            catch
+            {
+
+            }
         }
         if (jump)
         {
