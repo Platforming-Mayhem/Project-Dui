@@ -5,13 +5,22 @@ using UnityEngine;
 public class Boss01Script : MonoBehaviour
 {
     bool begin;
-    int state = 0;
+    public int Heath = 3;
     public Animator anim;
+    public GameObject Key;
+    public GameObject KeyPickup;
+    public float speed = 1f;
+    BoxCollider box;
+    Rigidbody rb;
+    [HideInInspector]
+    public Vector3 dir;
     // Start is called before the first frame update
     void Start()
     {
         begin = false;
         anim.enabled = false;
+        box = Key.GetComponent<BoxCollider>();
+        rb = GetComponentInParent<Rigidbody>();
     }
 
     // Update is called once per frame
@@ -20,6 +29,20 @@ public class Boss01Script : MonoBehaviour
         if (begin)
         {
             anim.enabled = true;
+            if (anim.GetCurrentAnimatorStateInfo(0).IsName("Scene"))
+            {
+                transform.position += dir * Time.deltaTime * speed;
+                box.enabled = false;
+            }
+            else if(anim.GetCurrentAnimatorStateInfo(0).IsName("Scene (1)"))
+            {
+                box.enabled = true;
+            }
+        }
+        if(Heath <= 0f)
+        {
+            Instantiate(KeyPickup, transform.position, Quaternion.identity);
+            DestroyImmediate(gameObject);
         }
     }
 

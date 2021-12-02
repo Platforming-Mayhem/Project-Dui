@@ -7,11 +7,15 @@ public class NewPlayerScript : MonoBehaviour
     public Rigidbody rb;
     Camera cam;
     public GameObject jumpFX;
+    public GameObject DeathScreen;
+    public GameObject life01;
+    public GameObject life02;
     public Transform groundChecker;
     public AnimationCurve speedUpCurve;
     public AnimationCurve slowDownCurve;
     public float turningCircle = 10f;
 
+    int lives;
     Animator anim;
 
     bool isGrounded;
@@ -22,6 +26,8 @@ public class NewPlayerScript : MonoBehaviour
         rb = GetComponentInChildren<Rigidbody>();
         anim = GetComponentInChildren<Animator>();
         cam = Camera.main;
+        lives = 2;
+        DeathScreen.SetActive(false);
     }
 
     void FixedUpdate()
@@ -34,7 +40,16 @@ public class NewPlayerScript : MonoBehaviour
 
     public void Die()
     {
-        
+        lives -= 1;
+        if(lives == 1)
+        {
+            life02.SetActive(false);
+        }
+        else if(lives <= 0)
+        {
+            life01.SetActive(false);
+            DeathScreen.SetActive(true);
+        }
     }
 
     public float curveEquation(float a, float timeInterval)

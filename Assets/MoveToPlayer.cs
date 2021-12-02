@@ -5,21 +5,34 @@ using UnityEngine;
 public class MoveToPlayer : StateMachineBehaviour
 {
     NewPlayerScript newPlayer;
+    Boss01Script boss;
     Rigidbody rb;
+    float time = 0f;
+
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         newPlayer = FindObjectOfType<NewPlayerScript>();
-        rb = animator.GetComponent<Rigidbody>();
+        rb = animator.GetComponentInParent<Rigidbody>();
+        boss = FindObjectOfType<Boss01Script>();
         rb.useGravity = true;
+        time = Random.Range(1f, 5f);
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        Vector3 dir = Vector3.Scale(animator.transform.position - newPlayer.transform.position, Vector3.one - Vector3.up).normalized;
-        animator.transform.up = dir;
-        animator.transform.position = Vector3.Scale(Vector3.Lerp(animator.transform.position, newPlayer.transform.position, Time.deltaTime), Vector3.one - Vector3.up) + Vector3.up * animator.transform.position.y;
+        Vector3 dir = (animator.transform.position - newPlayer.transform.position).normalized;
+        animator.transform.parent.eulerAngles = new Vector3(-90f, Mathf.Atan2(dir.x, dir.z) * Mathf.Rad2Deg + 180f, 0f);
+        boss.dir = -animator.transform.up;
+        if(time > 0f)
+        {
+            time -= Time.deltaTime;
+        }
+        else
+        {
+            animator.SetTrigger("Attack");
+        }
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
