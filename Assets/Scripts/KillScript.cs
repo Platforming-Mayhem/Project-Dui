@@ -24,4 +24,11 @@ public class KillScript : MonoBehaviour
             playerScript.Die();
         }
     }
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            playerScript.Die();
+        }
+    }
 }

@@ -5,6 +5,10 @@ using UnityEngine;
 
 public class MenuScript : MonoBehaviour
 {
+    private void OnEnable()
+    {
+        Cursor.lockState = CursorLockMode.None;
+    }
     public void Play(int index)
     {
         SceneManager.LoadScene(index);

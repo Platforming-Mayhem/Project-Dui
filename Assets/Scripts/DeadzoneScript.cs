@@ -27,7 +27,7 @@ public class DeadzoneScript : MonoBehaviour
         }
         else if (other.CompareTag("Key03"))
         {
-            boss.Heath -= 1;
+            boss.RemoveHealth();
             Destroy(gameObject);
             Debug.Log("YOUUU BE HUR'IN NOW");
         }

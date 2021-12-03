@@ -24,7 +24,7 @@ BlendTree:
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
     m_CycleOffset: 0
-    m_DirectBlendParameter: Blend
+    m_DirectBlendParameter: Time
     m_Mirror: 0
   m_BlendParameter: Time
   m_BlendParameterY: Blend

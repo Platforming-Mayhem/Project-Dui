@@ -7,8 +7,10 @@ public class Boss01Script : MonoBehaviour
     bool begin;
     public int Heath = 3;
     public Animator anim;
+    public GameObject hurtParticle;
     public GameObject Key;
     public GameObject KeyPickup;
+    public GameObject Exit;
     public float speed = 1f;
     BoxCollider box;
     Rigidbody rb;
@@ -21,6 +23,7 @@ public class Boss01Script : MonoBehaviour
         anim.enabled = false;
         box = Key.GetComponent<BoxCollider>();
         rb = GetComponentInParent<Rigidbody>();
+        Exit.SetActive(false);
     }
 
     // Update is called once per frame
@@ -46,11 +49,23 @@ public class Boss01Script : MonoBehaviour
         }
     }
 
+    public void RemoveHealth()
+    {
+        Heath -= 1;
+        Instantiate(hurtParticle, transform.position, Quaternion.identity);
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
             begin = true;
         }
+    }
+
+    private void OnDestroy()
+    {
+        FindObjectOfType<CameraScript>().cameraTypes = CameraScript.CameraTypes.mouseControl;
+        Exit.SetActive(true);
     }
 }
