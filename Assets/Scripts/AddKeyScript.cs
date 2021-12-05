@@ -5,10 +5,13 @@ using UnityEngine;
 public class AddKeyScript : MonoBehaviour
 {
     Animator anim;
+    AudioSource audioS;
+    public AudioClip collectSFX;
     // Start is called before the first frame update
     void Start()
     {
         anim = GetComponent<Animator>();
+        audioS = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -27,6 +30,7 @@ public class AddKeyScript : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             anim.SetTrigger("Collected");
+            audioS.PlayOneShot(collectSFX);
         }
     }
 }

@@ -49,6 +49,7 @@ public class NewPlayerScript : MonoBehaviour
         {
             life01.SetActive(false);
             DeathScreen.SetActive(true);
+            gameObject.SetActive(false);
         }
     }
 

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Video;
 using UnityEngine;
 
 public class CollisionMorph : MonoBehaviour
@@ -10,6 +11,7 @@ public class CollisionMorph : MonoBehaviour
     public MeshCollider meshCollider;
     public GameObject GUI;
     public GameObject NPCDialogue;
+    public VideoPlayer videoPlayer;
     Mesh mesh;
 
     // Start is called before the first frame update
@@ -33,6 +35,8 @@ public class CollisionMorph : MonoBehaviour
         nTrig = true;
         GUI.SetActive(false);
         NPCDialogue.SetActive(false);
+        videoPlayer.gameObject.SetActive(true);
+        videoPlayer.Play();
     }
     public void Minimise()
     {
@@ -55,6 +59,10 @@ public class CollisionMorph : MonoBehaviour
             t += Time.deltaTime;
         }
         animator.SetFloat("Time", t);
+        if (videoPlayer.gameObject.activeInHierarchy && !videoPlayer.isPlaying)
+        {
+            videoPlayer.gameObject.SetActive(false);
+        }
     }
 
     private void OnTriggerStay(Collider other)
@@ -80,6 +88,7 @@ public class CollisionMorph : MonoBehaviour
                 GetComponent<Collider>().enabled = false;
                 nTrig = false;
             }
+            videoPlayer.gameObject.SetActive(false);
         }
     }
 }

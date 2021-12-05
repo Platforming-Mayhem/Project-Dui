@@ -6,8 +6,10 @@ public class Boss01Script : MonoBehaviour
 {
     bool begin;
     public int Heath = 3;
+    public AudioSource currentMusic;
+    public AudioSource start;
+    public AudioSource loop;
     public Animator anim;
-    public GameObject hurtParticle;
     public GameObject Key;
     public GameObject KeyPickup;
     public GameObject Exit;
@@ -23,6 +25,10 @@ public class Boss01Script : MonoBehaviour
         anim.enabled = false;
         box = Key.GetComponent<BoxCollider>();
         rb = GetComponentInParent<Rigidbody>();
+    }
+
+    private void OnEnable()
+    {
         Exit.SetActive(false);
     }
 
@@ -41,10 +47,14 @@ public class Boss01Script : MonoBehaviour
             {
                 box.enabled = true;
             }
+            if (!start.isPlaying)
+            {
+                loop.enabled = true;
+            }
         }
         if(Heath <= 0f)
         {
-            Instantiate(KeyPickup, transform.position, Quaternion.identity);
+            Instantiate(KeyPickup, transform.position + Vector3.down, Quaternion.identity);
             DestroyImmediate(gameObject);
         }
     }
@@ -52,7 +62,7 @@ public class Boss01Script : MonoBehaviour
     public void RemoveHealth()
     {
         Heath -= 1;
-        Instantiate(hurtParticle, transform.position, Quaternion.identity);
+        anim.SetTrigger("Hurt");
     }
 
     private void OnTriggerEnter(Collider other)
@@ -60,6 +70,8 @@ public class Boss01Script : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             begin = true;
+            start.enabled = true;
+            currentMusic.enabled = false;
         }
     }
 
@@ -67,5 +79,6 @@ public class Boss01Script : MonoBehaviour
     {
         FindObjectOfType<CameraScript>().cameraTypes = CameraScript.CameraTypes.mouseControl;
         Exit.SetActive(true);
+        currentMusic.enabled = true;
     }
 }

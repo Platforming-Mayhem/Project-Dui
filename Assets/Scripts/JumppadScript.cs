@@ -6,6 +6,8 @@ public class JumppadScript : MonoBehaviour
 {
     Animator anim;
     NewPlayerScript playerScript;
+    public AudioSource audioS;
+    public AudioClip jumpS;
     // Start is called before the first frame update
     void Start()
     {
@@ -30,6 +32,7 @@ public class JumppadScript : MonoBehaviour
         if (collision.collider.CompareTag("Player"))
         {
             anim.SetTrigger("Jump");
+            audioS.PlayOneShot(jumpS);
             jump = true;
         }
     }
